@@ -78,7 +78,7 @@ const ANIMAL_MAPPER = {
     "70": "70-bisonte.webp",
     "71": "71-guacamaya.webp",
     "72": "72-gorila.webp",
-    "73": "73-hopopotamo.webp",
+    "73": "73-hipopotamo.webp",
     "74": "74-turpial.webp",
     "75": "75-guacharo.webp",
     "76": "76-rinoceronte.webp",

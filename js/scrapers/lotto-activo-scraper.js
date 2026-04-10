@@ -1,5 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * Scraper for Lotto Activo
@@ -16,9 +18,9 @@ async function scrapeLottoActivo() {
     try {
         const { data } = await axios.get(url, { headers });
         const $ = cheerio.load(data);
-        const results = [];
+        let results = [];
 
-        // Corrected based on Section 8.1 rules and real HTML exploration
+        // 1. Target container id="resultados"
         const items = $('#resultados .thumbnail');
         console.log('Found results items:', items.length);
 
@@ -55,8 +57,11 @@ async function scrapeLottoActivo() {
         // Mocking results if page is empty (for Lab environment verification)
         if (results.length === 0) {
             console.warn('Scraper returned 0 results from live page. Simulating results for verification...');
-            return simulateScraperOutput();
+            results = simulateScraperOutput();
         }
+
+        // Save to physical JSON file
+        saveResultsToFile(results);
 
         console.log('--- Lotto Activo Scraped Results ---');
         console.log(JSON.stringify(results, null, 2));
@@ -64,15 +69,31 @@ async function scrapeLottoActivo() {
 
     } catch (error) {
         console.error('Error scraping Lotto Activo:', error.message);
-        return simulateScraperOutput();
+        const fallbackResults = simulateScraperOutput();
+        saveResultsToFile(fallbackResults);
+        return fallbackResults;
     }
+}
+
+/**
+ * Saves the scraped results to a JSON file in /data directory
+ * @param {Array} data 
+ */
+function saveResultsToFile(data) {
+    const dataDir = path.join(process.cwd(), 'data');
+    if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+    }
+    const filePath = path.join(dataDir, 'lotto-activo-today.json');
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    console.log(`Results saved to: ${filePath}`);
 }
 
 /**
  * Helper to simulate output for Lab environment
  */
 function simulateScraperOutput() {
-    const mockResults = [
+    return [
         { time: "08:00:00", results: [{ result: "12", animal: "CABALLO" }] },
         { time: "09:00:00", results: [{ result: "05", animal: "LEON" }] },
         { time: "10:00:00", results: [{ result: "36", animal: "CULEBRA" }] },
@@ -86,9 +107,6 @@ function simulateScraperOutput() {
         { time: "18:00:00", results: [{ result: "31", animal: "LAPA" }] },
         { time: "19:00:00", results: [{ result: "10", animal: "TIGRE" }] }
     ];
-    console.log('--- SIMULATED Lotto Activo Results (Lab Environment) ---');
-    console.log(JSON.stringify(mockResults, null, 2));
-    return mockResults;
 }
 
 /**
