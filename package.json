@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "axios": "^1.15.0",
+    "cheerio": "^1.2.0"
+  },
+  "name": "mvp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monomatarata-hue/MVP-de-Sincronizaci-n-de-loter-as.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/monomatarata-hue/MVP-de-Sincronizaci-n-de-loter-as/issues"
+  },
+  "homepage": "https://github.com/monomatarata-hue/MVP-de-Sincronizaci-n-de-loter-as#readme"
+}

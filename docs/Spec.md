@@ -107,3 +107,18 @@ El código debe iterar sobre el array de objetos JSON recibido. Dado que el esqu
 ### 7.4. Modularidad de Archivos
 - Toda la lógica de conexión, extracción y mapeo detallada en esta sección debe estar encapsulada en un único módulo ubicado en `/js/api-handlers/lotterly-api.js`.
 - La ejecución en el archivo principal consistirá únicamente en invocar la función constructora pasando el `slug` deseado como argumento principal.
+
+
+## 8. Lógica de Extracción Alternativa: Web Scraping
+
+Esta sección dicta las reglas de extracción para los proveedores que utilizan Renderizado del Lado del Servidor (SSR) y no exponen una API pública (Ejemplo: Lotto Activo y Lotto Activo Internacional). La extracción de datos se realizará estrictamente mediante Web Scraping en el Backend utilizando las librerías `axios` y `cheerio`.
+
+### 8.1 Reglas de Scraping para Lotto Activo
+**Fuente de datos:** `https://www.lottoactivo.com/resultados/lotto_activo/`
+
+1. **Contenedor Base:** El código debe hacer la petición HTTP y apuntar exclusivamente al contenedor HTML con el `id="resultados"`.
+2. **Iteración:** Se deben recorrer los 12 `div` hijos directos de ese contenedor (que representan los 12 sorteos diarios, desde las 08:00 AM hasta las 07:00 PM).
+3. **Regla de Hora:** Localizar la etiqueta `<p>`. Extraer el texto y limpiarlo mediante expresiones regulares o manipulación de strings para conservar únicamente el formato de hora de 12h (Ej: de la cadena "Lotto Activo 08:00 AM" extraer únicamente "08:00 AM").
+4. **Regla de Número:** Localizar la etiqueta `<h6>`. Extraer el texto interno de la sub-etiqueta `<span class="badge">` (Ej: "12").
+5. **Regla de Animal:** Extraer el texto puro (Text Node) que se encuentra directamente dentro de la etiqueta `<h6>`, excluyendo por completo el contenido del `<span>`. Se debe aplicar el método `.trim()` para limpiar saltos de línea y espacios en blanco residuales.
+6. **Estandarización de Salida:** El backend debe tomar estos datos raspados y formatearlos en un Array de objetos JSON que posea una estructura idéntica a la respuesta de la API de Lotterly (documentada en la Sección 7). El objetivo es que el Frontend consuma la data sin distinguir si provino de una API o de un Scraper.
