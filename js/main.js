@@ -16,15 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 2. Lotto Activo Scraper Data (Section 8)
-    loadLottoActivoResults();
+    loadScraperResults('./data/lotto-activo-today.json', 'lotto-activo');
+    loadScraperResults('./data/lotto-activo-int-today.json', 'lotto-activo-internacional');
 });
 
 /**
- * Fetches and renders Lotto Activo results from local JSON file
+ * Fetches and renders scraper results from local JSON file
+ * @param {string} jsonPath - Path to the JSON data file
+ * @param {string} sectionId - HTML ID of the lottery section
  */
-async function loadLottoActivoResults() {
-    const jsonPath = './data/lotto-activo-today.json';
-    const sectionId = 'lotto-activo';
+async function loadScraperResults(jsonPath, sectionId) {
     const section = document.getElementById(sectionId);
 
     if (!section) {
@@ -33,7 +34,7 @@ async function loadLottoActivoResults() {
     }
 
     try {
-        console.log(`Fetching Lotto Activo results from ${jsonPath}...`);
+        console.log(`Fetching results from ${jsonPath}...`);
         const response = await fetch(jsonPath);
         
         if (!response.ok) {
@@ -43,7 +44,7 @@ async function loadLottoActivoResults() {
         const data = await response.json();
         
         if (data && Array.isArray(data)) {
-            console.log('Lotto Activo data loaded successfully.');
+            console.log(`${sectionId} data loaded successfully.`);
             
             data.forEach(item => {
                 const drawTime = item.time; // Format "HH:MM:SS"
@@ -51,18 +52,16 @@ async function loadLottoActivoResults() {
 
                 if (drawTime && winnerNumber) {
                     // Reusing updateCard from lotterly-api.js logic
-                    // Note: lotterly-api.js is loaded BEFORE main.js in index.html
                     if (typeof updateCard === 'function') {
                         updateCard(section, drawTime, winnerNumber);
                     } else {
-                        // Fallback implementation if lotterly-api.js is not loaded
                         injectResultToCard(section, drawTime, winnerNumber);
                     }
                 }
             });
         }
     } catch (error) {
-        console.error('Error loading Lotto Activo results:', error.message);
+        console.error(`Error loading results for ${sectionId}:`, error.message);
     }
 }
 

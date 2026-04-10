@@ -3,8 +3,8 @@
     "time": "08:00:00",
     "results": [
       {
-        "result": "12",
-        "animal": "CABALLO"
+        "result": "25",
+        "animal": "GALLINA"
       }
     ]
   },
@@ -12,8 +12,8 @@
     "time": "09:00:00",
     "results": [
       {
-        "result": "05",
-        "animal": "LEON"
+        "result": "03",
+        "animal": "CIEMPIES"
       }
     ]
   },
@@ -21,8 +21,8 @@
     "time": "10:00:00",
     "results": [
       {
-        "result": "36",
-        "animal": "CULEBRA"
+        "result": "14",
+        "animal": "PALOMA"
       }
     ]
   },
@@ -30,8 +30,8 @@
     "time": "11:00:00",
     "results": [
       {
-        "result": "19",
-        "animal": "CHIVO"
+        "result": "32",
+        "animal": "ARDILLA"
       }
     ]
   },
@@ -39,8 +39,8 @@
     "time": "12:00:00",
     "results": [
       {
-        "result": "00",
-        "animal": "BALLENA"
+        "result": "07",
+        "animal": "PERICO"
       }
     ]
   },
@@ -48,8 +48,8 @@
     "time": "13:00:00",
     "results": [
       {
-        "result": "21",
-        "animal": "GALLO"
+        "result": "20",
+        "animal": "COCHINO"
       }
     ]
   },
@@ -57,8 +57,8 @@
     "time": "14:00:00",
     "results": [
       {
-        "result": "08",
-        "animal": "RATON"
+        "result": "11",
+        "animal": "GATO"
       }
     ]
   },
@@ -66,8 +66,8 @@
     "time": "15:00:00",
     "results": [
       {
-        "result": "27",
-        "animal": "PERRO"
+        "result": "28",
+        "animal": "ZAMURO"
       }
     ]
   },
@@ -75,8 +75,8 @@
     "time": "16:00:00",
     "results": [
       {
-        "result": "04",
-        "animal": "ALACRAN"
+        "result": "02",
+        "animal": "TORO"
       }
     ]
   },
@@ -84,8 +84,17 @@
     "time": "17:00:00",
     "results": [
       {
-        "result": "15",
-        "animal": "ZORRO"
+        "result": "18",
+        "animal": "BURRO"
+      }
+    ]
+  },
+  {
+    "time": "18:00:00",
+    "results": [
+      {
+        "result": "35",
+        "animal": "JIRAFA"
       }
     ]
   }

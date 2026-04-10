@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Scraper for Lotto Activo
- * Rules based on Spec.md Section 8.1
+ * Scraper for Lotto Activo Internacional
+ * Rules based on Spec.md Section 8.1 (Same as national version)
  */
-async function scrapeLottoActivo() {
-    const url = 'https://www.lottoactivo.com/resultados/lotto_activo/';
+async function scrapeLottoActivoInt() {
+    const url = 'https://www.lottoactivo.com/resultados/lotto_activo_internacional/';
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Referer': 'https://www.lottoactivo.com/',
@@ -22,7 +22,7 @@ async function scrapeLottoActivo() {
 
         // 1. Target container id="resultados"
         const items = $('#resultados .thumbnail');
-        console.log('Found results items:', items.length);
+        console.log('Found results items (International):', items.length);
 
         const currentCaracasTime = getCurrentCaracasTime();
         console.log(`Current Caracas Time: ${currentCaracasTime}`);
@@ -47,9 +47,8 @@ async function scrapeLottoActivo() {
                 const formattedTime = convertTo24h(time);
 
                 // Rule 7: Filtro de "Viajeros del Tiempo"
-                // If draw time is strictly GREATER than current time, skip it.
                 if (formattedTime > currentCaracasTime) {
-                    console.log(`Skipping future/yesterday draw: ${time} (${formattedTime})`);
+                    console.log(`Skipping future/yesterday draw (Int): ${time} (${formattedTime})`);
                     return; 
                 }
 
@@ -74,12 +73,12 @@ async function scrapeLottoActivo() {
         // Save to physical JSON file
         saveResultsToFile(results);
 
-        console.log('--- Lotto Activo Scraped Results ---');
+        console.log('--- Lotto Activo Internacional Scraped Results ---');
         console.log(JSON.stringify(results, null, 2));
         return results;
 
     } catch (error) {
-        console.error('Error scraping Lotto Activo:', error.message);
+        console.error('Error scraping Lotto Activo Internacional:', error.message);
         const fallbackResults = simulateScraperOutput();
         saveResultsToFile(fallbackResults);
         return fallbackResults;
@@ -88,25 +87,22 @@ async function scrapeLottoActivo() {
 
 /**
  * Saves the scraped results to a JSON file in /data directory
- * @param {Array} data 
  */
 function saveResultsToFile(data) {
     const dataDir = path.join(process.cwd(), 'data');
     if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
     }
-    const filePath = path.join(dataDir, 'lotto-activo-today.json');
+    const filePath = path.join(dataDir, 'lotto-activo-int-today.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
     console.log(`Results saved to: ${filePath}`);
 }
 
 /**
  * Gets current time in Caracas timezone (UTC-4)
- * @returns {string} Time in HH:MM:SS format
  */
 function getCurrentCaracasTime() {
     const now = new Date();
-    // In Node.js environment, we ensure we get the Caracas time
     const options = {
         timeZone: 'America/Caracas',
         hour: '2-digit',
@@ -119,29 +115,26 @@ function getCurrentCaracasTime() {
 
 /**
  * Helper to simulate output for Lab environment
- * Also applies the time filter for accuracy
  */
 function simulateScraperOutput() {
     const currentCaracasTime = getCurrentCaracasTime();
     const mockResults = [
-        { time: "08:00:00", results: [{ result: "12", animal: "CABALLO" }] },
-        { time: "09:00:00", results: [{ result: "05", animal: "LEON" }] },
-        { time: "10:00:00", results: [{ result: "36", animal: "CULEBRA" }] },
-        { time: "11:00:00", results: [{ result: "19", animal: "CHIVO" }] },
-        { time: "12:00:00", results: [{ result: "00", animal: "BALLENA" }] },
-        { time: "13:00:00", results: [{ result: "21", animal: "GALLO" }] },
-        { time: "14:00:00", results: [{ result: "08", animal: "RATON" }] },
-        { time: "15:00:00", results: [{ result: "27", animal: "PERRO" }] },
-        { time: "16:00:00", results: [{ result: "04", animal: "ALACRAN" }] },
-        { time: "17:00:00", results: [{ result: "15", animal: "ZORRO" }] },
-        { time: "18:00:00", results: [{ result: "31", animal: "LAPA" }] },
-        { time: "19:00:00", results: [{ result: "10", animal: "TIGRE" }] }
+        { time: "08:00:00", results: [{ result: "25", animal: "GALLINA" }] },
+        { time: "09:00:00", results: [{ result: "03", animal: "CIEMPIES" }] },
+        { time: "10:00:00", results: [{ result: "14", animal: "PALOMA" }] },
+        { time: "11:00:00", results: [{ result: "32", animal: "ARDILLA" }] },
+        { time: "12:00:00", results: [{ result: "07", animal: "PERICO" }] },
+        { time: "13:00:00", results: [{ result: "20", animal: "COCHINO" }] },
+        { time: "14:00:00", results: [{ result: "11", animal: "GATO" }] },
+        { time: "15:00:00", results: [{ result: "28", animal: "ZAMURO" }] },
+        { time: "16:00:00", results: [{ result: "02", animal: "TORO" }] },
+        { time: "17:00:00", results: [{ result: "18", animal: "BURRO" }] },
+        { time: "18:00:00", results: [{ result: "35", animal: "JIRAFA" }] },
+        { time: "19:00:00", results: [{ result: "09", animal: "AGUILA" }] }
     ];
 
-    // Filter by time for simulation
     const filteredMock = mockResults.filter(item => item.time <= currentCaracasTime);
-    
-    console.log(`--- SIMULATED Lotto Activo Results (Filtered by ${currentCaracasTime}) ---`);
+    console.log(`--- SIMULATED Lotto Activo Int Results (Filtered by ${currentCaracasTime}) ---`);
     console.log(JSON.stringify(filteredMock, null, 2));
     return filteredMock;
 }
@@ -164,4 +157,4 @@ function convertTo24h(time12h) {
 }
 
 // Execute for verification
-scrapeLottoActivo();
+scrapeLottoActivoInt();
