@@ -82,6 +82,14 @@ Cada petición debe configurarse con las siguientes cabeceras mínimas:
 - El sistema no debe realizar peticiones repetitivas si el resultado de un horario ya existe en la memoria local.
 - Se debe implementar un margen de espera aleatorio (jitter) si se realizan múltiples peticiones consecutivas para no generar patrones mecánicos.
 
+### 6.4. Tolerancia de Red (Timeout Handling)
+Para prevenir que las peticiones se queden colgadas indefinidamente o que el script aborte prematuramente por fluctuaciones normales del servidor destino, todas las peticiones externas a las páginas de resultados (como Axios o Fetch) deben incluir una configuración estricta de tiempo de espera.
+- **Timeout obligatorio:** 5000 milisegundos (5 segundos).
+- **Comportamiento esperado:** Si el servidor no responde entregando el HTML dentro de este margen de 5 segundos, la petición debe ser abortada y el sistema debe registrar un error real de conexión (Timeout Error) en la consola, sin inyectar datos simulados ni interrumpir el resto de la ejecución de forma silenciosa.
+
+### 6.5. Prohibición Estricta de Simulaciones (No Mock Data)
+Bajo ninguna circunstancia los scrapers deben generar, inyectar o devolver datos simulados (`mock data`), funciones de respaldo (`simulateScraperOutput`) o arreglos hardcodeados en los archivos JSON si la extracción falla. El sistema debe depender 100% de la respuesta real de la página. Si hay un fallo de conexión o la estructura HTML cambia, el script debe fallar ruidosamente (Fail Fast) imprimiendo el error real en la consola, permitiendo así diagnosticar el problema en lugar de enmascararlo con resultados falsos.
+
 ## 7. Lógica de Sincronización Modular (Grupo de Oro - APIs Lotterly)
 
 ### 7.1. Estructura de Consumo Unificada

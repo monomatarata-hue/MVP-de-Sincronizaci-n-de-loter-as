@@ -16,7 +16,10 @@ async function scrapeLottoActivo() {
     };
 
     try {
-        const { data } = await axios.get(url, { headers });
+        const { data } = await axios.get(url, { 
+            headers,
+            timeout: 5000 
+        });
         const $ = cheerio.load(data);
         let results = [];
 
@@ -65,12 +68,6 @@ async function scrapeLottoActivo() {
             }
         });
 
-        // Mocking results if page is empty (for Lab environment verification)
-        if (results.length === 0) {
-            console.warn('Scraper returned 0 results from live page. Simulating results for verification...');
-            results = simulateScraperOutput();
-        }
-
         // Save to physical JSON file
         saveResultsToFile(results);
 
@@ -80,9 +77,7 @@ async function scrapeLottoActivo() {
 
     } catch (error) {
         console.error('Error scraping Lotto Activo:', error.message);
-        const fallbackResults = simulateScraperOutput();
-        saveResultsToFile(fallbackResults);
-        return fallbackResults;
+        return [];
     }
 }
 
@@ -115,35 +110,6 @@ function getCurrentCaracasTime() {
         hour12: false
     };
     return new Intl.DateTimeFormat('en-US', options).format(now);
-}
-
-/**
- * Helper to simulate output for Lab environment
- * Also applies the time filter for accuracy
- */
-function simulateScraperOutput() {
-    const currentCaracasTime = getCurrentCaracasTime();
-    const mockResults = [
-        { time: "08:00:00", results: [{ result: "12", animal: "CABALLO" }] },
-        { time: "09:00:00", results: [{ result: "05", animal: "LEON" }] },
-        { time: "10:00:00", results: [{ result: "36", animal: "CULEBRA" }] },
-        { time: "11:00:00", results: [{ result: "19", animal: "CHIVO" }] },
-        { time: "12:00:00", results: [{ result: "00", animal: "BALLENA" }] },
-        { time: "13:00:00", results: [{ result: "21", animal: "GALLO" }] },
-        { time: "14:00:00", results: [{ result: "08", animal: "RATON" }] },
-        { time: "15:00:00", results: [{ result: "27", animal: "PERRO" }] },
-        { time: "16:00:00", results: [{ result: "04", animal: "ALACRAN" }] },
-        { time: "17:00:00", results: [{ result: "15", animal: "ZORRO" }] },
-        { time: "18:00:00", results: [{ result: "31", animal: "LAPA" }] },
-        { time: "19:00:00", results: [{ result: "10", animal: "TIGRE" }] }
-    ];
-
-    // Filter by time for simulation
-    const filteredMock = mockResults.filter(item => item.time <= currentCaracasTime);
-    
-    console.log(`--- SIMULATED Lotto Activo Results (Filtered by ${currentCaracasTime}) ---`);
-    console.log(JSON.stringify(filteredMock, null, 2));
-    return filteredMock;
 }
 
 /**
