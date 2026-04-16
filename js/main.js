@@ -51,16 +51,15 @@ async function loadScraperResults(jsonPath, sectionId) {
             console.log(`${sectionId} data loaded successfully.`);
             
             data.forEach(item => {
-                const drawTime = item.time; // Format "HH:MM:SS"
-                const winnerNumber = item.results && item.results[0] ? String(item.results[0].result) : null;
+                const drawTime = item.time;
+                const resultData = item.results && item.results[0] ? item.results[0] : null;
 
-                if (drawTime && winnerNumber) {
-                    // Reusing updateCard from lotterly-api.js logic
-                    if (typeof updateCard === 'function') {
-                        updateCard(section, drawTime, winnerNumber);
-                    } else {
-                        injectResultToCard(section, drawTime, winnerNumber);
-                    }
+                if (drawTime && resultData) {
+                    const winnerNumber = String(resultData.result);
+                    const animalName = String(resultData.animal || '');
+                    
+                    // Priorizamos la función de inyección de main.js para aplicar el parche de sanitización
+                    injectResultToCard(section, drawTime, winnerNumber, animalName);
                 }
             });
         }
@@ -71,17 +70,31 @@ async function loadScraperResults(jsonPath, sectionId) {
 
 /**
  * Fallback injector if updateCard is not globally available
+ * UPDATED: Includes security patch for single-digit numbers and animal name sanitization
  */
-function injectResultToCard(section, drawTime, winnerNumber) {
+function injectResultToCard(section, drawTime, winnerNumber, animalName = '') {
     const card = section.querySelector(`.result-card[data-time="${drawTime}"]`);
     if (card) {
         const imgContainer = card.querySelector('.animal-img');
-        // ANIMAL_MAPPER is globally available from lotterly-api.js
-        const fileName = (typeof ANIMAL_MAPPER !== 'undefined') ? ANIMAL_MAPPER[winnerNumber] : null;
+        
+        // PARCHE DE SEGURIDAD: Sanitización estricta de número y animal
+        const sanitizedNumber = winnerNumber.toString().padStart(2, '0');
+        const sanitizedAnimal = animalName.toLowerCase()
+            .trim()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Quitar tildes (acentos)
+
+        // 1. Intentar obtener el nombre del archivo desde el ANIMAL_MAPPER global
+        let fileName = (typeof ANIMAL_MAPPER !== 'undefined') ? ANIMAL_MAPPER[sanitizedNumber] : null;
+        
+        // 2. Fallback: Si no está en el mapper, construirlo según la convención XX-animal.webp
+        if (!fileName && sanitizedAnimal) {
+            fileName = `${sanitizedNumber}-${sanitizedAnimal}.webp`;
+        }
         
         if (fileName && imgContainer) {
             const imgPath = `assets/animalitos/${fileName}`;
-            imgContainer.innerHTML = `<img src="${imgPath}" alt="${winnerNumber}">`;
+            imgContainer.innerHTML = `<img src="${imgPath}" alt="${sanitizedNumber}">`;
         }
     }
 }
+

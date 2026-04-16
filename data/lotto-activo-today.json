@@ -97,5 +97,14 @@
         "animal": "Camello"
       }
     ]
+  },
+  {
+    "time": "19:00:00",
+    "results": [
+      {
+        "result": "33",
+        "animal": "Pescado"
+      }
+    ]
   }
 ]
