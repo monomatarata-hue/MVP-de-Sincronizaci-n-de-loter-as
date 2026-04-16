@@ -25,5 +25,14 @@
         "animal": "León"
       }
     ]
+  },
+  {
+    "time": "11:00:00",
+    "results": [
+      {
+        "result": "00",
+        "animal": "Ballena"
+      }
+    ]
   }
 ]

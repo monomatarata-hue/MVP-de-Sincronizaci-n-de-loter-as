@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "time": "08:30:00",
+    "results": [
+      {
+        "result": "16",
+        "animal": "Oso"
+      }
+    ]
+  },
+  {
+    "time": "09:30:00",
+    "results": [
+      {
+        "result": "20",
+        "animal": "Cochino"
+      }
+    ]
+  },
+  {
+    "time": "10:30:00",
+    "results": [
+      {
+        "result": "02",
+        "animal": "Toro"
+      }
+    ]
+  },
+  {
+    "time": "11:30:00",
+    "results": [
+      {
+        "result": "12",
+        "animal": "Caballo"
+      }
+    ]
+  }
+]
