@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/monomatarata-hue/MVP-de-Sincronizaci-n-de-loter-as#readme",
   "dependencies": {
+    "node-cron": "^4.2.1",
     "puppeteer": "^24.41.0"
   }
 }

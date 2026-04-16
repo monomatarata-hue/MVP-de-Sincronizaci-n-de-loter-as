@@ -8,7 +8,7 @@ const path = require('path');
  */
 async function scrapeLottoActivo() {
     const url = 'https://www.lottoactivo.com/resultados/lotto_activo/';
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     try {
@@ -100,7 +100,6 @@ async function scrapeLottoActivo() {
         console.error('Error scraping Lotto Activo:', error.message);
         return [];
     } finally {
-        await new Promise(r => setTimeout(r, 5000));
         await browser.close();
     }
 }
