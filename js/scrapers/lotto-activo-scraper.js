@@ -1,89 +1,112 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
 /**
- * Scraper for Lotto Activo
+ * Scraper for Lotto Activo using Puppeteer
  * Rules based on Spec.md Section 8.1
  */
 async function scrapeLottoActivo() {
     const url = 'https://www.lottoactivo.com/resultados/lotto_activo/';
-    const headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Referer': 'https://www.lottoactivo.com/',
-        'Accept-Language': 'es-ES,es;q=0.9'
-    };
+    const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage();
 
     try {
-        const { data } = await axios.get(url, { 
-            headers,
-            timeout: 5000 
-        });
-        const $ = cheerio.load(data);
-        let results = [];
+        // Set viewport and user agent for better compatibility
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+        
+        console.log(`Navigating to ${url}...`);
+        await page.goto(url, { waitUntil: 'networkidle2' });
 
-        // 1. Target container id="resultados"
-        const items = $('#resultados .thumbnail');
-        console.log('Found results items:', items.length);
+        // OBLIGATORIO: Wait for dynamic content
+        console.log('Waiting for #resultados p selector...');
+        await page.waitForSelector('#resultados p', { timeout: 15000 });
 
         const currentCaracasTime = getCurrentCaracasTime();
         console.log(`Current Caracas Time: ${currentCaracasTime}`);
 
-        items.each((index, element) => {
-            if (results.length >= 12) return false;
+        // Extraction logic inside page.evaluate
+        const datosExtraidos = await page.evaluate(() => {
+            const items = document.querySelectorAll('#resultados > div');
+            const scrapedData = [];
 
-            // Rule 3: Extract Time from <p>
-            const timeRaw = $(element).find('p').text();
-            const timeMatch = timeRaw.match(/(\d{1,2}:\d{2}\s?(AM|PM))/i);
-            const time = timeMatch ? timeMatch[0].toUpperCase() : null;
+            items.forEach((element, index) => {
+                if (scrapedData.length >= 12) return;
 
-            // Rule 4: Extract Number from <h6> <span class="badge">
-            const number = $(element).find('h6 span.badge').text().trim();
+                // Rule 3: Extract Time from <p>
+                const timeRaw = element.querySelector('p')?.textContent || '';
+                const timeMatch = timeRaw.match(/(\d{1,2}:\d{2}\s?(AM|PM))/i);
+                const time = timeMatch ? timeMatch[0].toUpperCase() : null;
 
-            // Rule 5: Extract Animal from <h6> (Text Node)
-            const animal = $(element).find('h6').contents().filter(function() {
-                return this.nodeType === 3;
-            }).text().trim();
+                // Rule 4: Extract Number from <h6> <span class="badge">
+                const number = element.querySelector('h6 span.badge')?.textContent.trim() || '';
 
-            if (time && number) {
-                const formattedTime = convertTo24h(time);
-
-                // Rule 7: Filtro de "Viajeros del Tiempo"
-                // If draw time is strictly GREATER than current time, skip it.
-                if (formattedTime > currentCaracasTime) {
-                    console.log(`Skipping future/yesterday draw: ${time} (${formattedTime})`);
-                    return; 
+                // Rule 5: Extract Animal from <h6> (TextNode)
+                const h6 = element.querySelector('h6');
+                let animal = '';
+                if (h6) {
+                    // Filter text nodes only
+                    animal = Array.from(h6.childNodes)
+                        .filter(node => node.nodeType === 3)
+                        .map(node => node.textContent.trim())
+                        .join('')
+                        .trim();
                 }
 
-                results.push({
-                    time: formattedTime,
-                    results: [
-                        {
-                            result: number,
-                            animal: animal
-                        }
-                    ]
-                });
-            }
+                if (time && number) {
+                    // Local helper for time conversion (since we're in browser context)
+                    const convertTo24hLocal = (time12h) => {
+                        const match = time12h.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+                        if (!match) return "00:00:00";
+                        let [_, hours, minutes, modifier] = match;
+                        hours = parseInt(hours, 10);
+                        modifier = modifier.toUpperCase();
+                        if (modifier === 'PM' && hours < 12) hours += 12;
+                        if (modifier === 'AM' && hours === 12) hours = 0;
+                        return `${String(hours).padStart(2, '0')}:${minutes}:00`;
+                    };
+
+                    const formattedTime = convertTo24hLocal(time);
+
+                    scrapedData.push({
+                        time: formattedTime,
+                        results: [
+                            {
+                                result: number,
+                                animal: animal
+                            }
+                        ]
+                    });
+                }
+            });
+
+            return scrapedData;
         });
 
-        // Save to physical JSON file
+        console.log("🕵️ DATOS CRUDOS ANTES DEL FILTRO:", datosExtraidos);
+
+        // Rule 7: Filtro de "Viajeros del Tiempo"
+        const results = datosExtraidos.filter(item => item.time <= currentCaracasTime);
+
+        // Save results to physical JSON file
         saveResultsToFile(results);
 
-        console.log('--- Lotto Activo Scraped Results ---');
+        console.log('--- Lotto Activo Scraped Results (Puppeteer) ---');
         console.log(JSON.stringify(results, null, 2));
         return results;
 
     } catch (error) {
+        console.error("🚨 ERROR CRÍTICO EN SCRAPER:", error.message);
         console.error('Error scraping Lotto Activo:', error.message);
         return [];
+    } finally {
+        await new Promise(r => setTimeout(r, 5000));
+        await browser.close();
     }
 }
 
 /**
  * Saves the scraped results to a JSON file in /data directory
- * @param {Array} data 
  */
 function saveResultsToFile(data) {
     const dataDir = path.join(process.cwd(), 'data');
@@ -97,11 +120,9 @@ function saveResultsToFile(data) {
 
 /**
  * Gets current time in Caracas timezone (UTC-4)
- * @returns {string} Time in HH:MM:SS format
  */
 function getCurrentCaracasTime() {
     const now = new Date();
-    // In Node.js environment, we ensure we get the Caracas time
     const options = {
         timeZone: 'America/Caracas',
         hour: '2-digit',
@@ -110,23 +131,6 @@ function getCurrentCaracasTime() {
         hour12: false
     };
     return new Intl.DateTimeFormat('en-US', options).format(now);
-}
-
-/**
- * Helper to convert 12h (AM/PM) to 24h (HH:MM:SS)
- */
-function convertTo24h(time12h) {
-    const match = time12h.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
-    if (!match) return "00:00:00";
-    
-    let [_, hours, minutes, modifier] = match;
-    hours = parseInt(hours, 10);
-    modifier = modifier.toUpperCase();
-
-    if (modifier === 'PM' && hours < 12) hours += 12;
-    if (modifier === 'AM' && hours === 12) hours = 0;
-
-    return `${String(hours).padStart(2, '0')}:${minutes}:00`;
 }
 
 // Execute for verification

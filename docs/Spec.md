@@ -49,22 +49,22 @@ El agente debe inicializar el proyecto construyendo estrictamente la siguiente e
 ```text
 /pruebas-monomatarata
 │
-├── /assets                # Recursos estáticos
-│   ├── /img               # Logos y banners de las loterías
-│   └── /animalitos        # TODAS las 37+ imágenes de los animalitos juntas en esta única raíz
+├── /assets                # Recursos estáticos
+│   ├── /img               # Logos y banners de las loterías
+│   └── /animalitos        # TODAS las 37+ imágenes de los animalitos juntas en esta única raíz
 │
-├── /css                   # Hojas de estilo
-│   └── styles.css         # Archivo central de estilos
+├── /css                   # Hojas de estilo
+│   └── styles.css         # Archivo central de estilos
 │
-├── /js                    # Lógica de programación y scripts
-│   ├── /scrapers          # Scripts para extracción de datos (Cheerio/Puppeteer)
-│   ├── /api-handlers      # Scripts para peticiones Fetch a las APIs directas
-│   └── main.js            # Archivo principal de ejecución
+├── /js                    # Lógica de programación y scripts
+│   ├── /scrapers          # Scripts para extracción de datos (Exclusivo para Puppeteer)
+│   ├── /api-handlers      # Scripts para peticiones Fetch a las APIs directas
+│   └── main.js            # Archivo principal de ejecución
 │
-├── /docs                  # Documentación del proyecto
-│   └── Spec.md            # Este archivo de especificaciones (moverlo aquí)
+├── /docs                  # Documentación del proyecto
+│   └── Spec.md            # Este archivo de especificaciones (moverlo aquí)
 │
-└── index.html             # Interfaz principal del MVP (conectada a styles.css y main.js)
+└── index.html             # Interfaz principal del MVP (conectada a styles.css y main.js)
 ```
 
 ## 6. Protocolos de Comunicación y Seguridad (Anti-Bot)
@@ -119,7 +119,7 @@ El código debe iterar sobre el array de objetos JSON recibido. Dado que el esqu
 
 ## 8. Lógica de Extracción Alternativa: Web Scraping
 
-Esta sección dicta las reglas de extracción para los proveedores que utilizan Renderizado del Lado del Servidor (SSR) y no exponen una API pública (Ejemplo: Lotto Activo y Lotto Activo Internacional). La extracción de datos se realizará estrictamente mediante Web Scraping en el Backend utilizando las librerías `axios` y `cheerio`.
+Esta sección dicta las reglas de extracción para los proveedores que utilizan Renderizado del Lado del Cliente (Client-Side Rendering) mediante JavaScript Dinámico y no exponen una API pública (Ejemplo: Lotto Activo y Lotto Activo Internacional). La extracción de datos se realizará estrictamente mediante Web Scraping en el Backend utilizando de forma obligatoria y exclusiva la librería `puppeteer`. Al usar Puppeteer, el scraper tiene la obligación de esperar a que el selector `#resultados` esté presente en el DOM y poblado de datos antes de iniciar la extracción.
 
 ### 8.1 Reglas de Scraping para Lotto Activo
 **Fuente de datos:** `https://www.lottoactivo.com/resultados/lotto_activo/`
