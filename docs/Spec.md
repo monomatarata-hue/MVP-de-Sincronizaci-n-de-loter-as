@@ -136,3 +136,13 @@ Esta sección dicta las reglas de extracción para los proveedores que utilizan 
 5. **Regla de Animal:** Extraer el texto puro (Text Node) que se encuentra directamente dentro de la etiqueta `<h6>`, excluyendo por completo el contenido del `<span>`. Se debe aplicar el método `.trim()` para limpiar saltos de línea y espacios en blanco residuales.
 6. **Estandarización de Salida:** El backend debe tomar estos datos raspados y formatearlos en un Array de objetos JSON que posea una estructura idéntica a la respuesta de la API de Lotterly (documentada en la Sección 7). El objetivo es que el Frontend consuma la data sin distinguir si provino de una API o de un Scraper.
 7. **Filtro de "Viajeros del Tiempo":** Los administradores de Lotto Activo no limpian la grilla a la medianoche, por lo que la página muestra resultados del día anterior en las horas futuras. Para evitar esto, el scraper debe comparar la hora extraída (Ej: "06:00 PM") con la hora actual del sistema. Si la hora del sorteo es estrictamente MAYOR a la hora actual, el scraper debe omitir ese resultado o devolverlo vacío para que el Frontend mantenga la tarjeta en blanco hasta que el sorteo realmente ocurra.
+
+## 9. Lógica de Extracción: La Granjita (loteriadehoy.com)
+**Fuente:** `https://loteriadehoy.com/animalito/lagranjita/resultados/`
+**Archivo:** `/js/scrapers/la-granjita-scraper.js` (A ser creado)
+
+**Reglas de Extracción (Antitrampas HTML):**
+1. **Evasión de Anuncios:** Los resultados deben extraerse iterando ÚNICAMENTE sobre los elementos con la clase `.circle-legend`. Se debe ignorar cualquier código publicitario inyectado.
+2. **Separación de Texto (Animal y Número):** El número y el animal vienen juntos dentro de la etiqueta `<h4>` (ej: "32 Ardilla"). El scraper debe extraer el texto y separarlo por el primer espacio para aislar la variable `result` ("32") de la variable `animal` ("Ardilla").
+3. **Limpieza de Hora:** La hora viene dentro de la etiqueta `<h5>` acompañada de la marca (ej: "La Granjita 09:00 AM"). El scraper debe limpiar este texto para eliminar "La Granjita " y quedarse solo con "09:00 AM", pasándolo luego por la función de conversión a formato 24h (`"09:00:00"`).
+4. **Almacenamiento:** Guardar el array resultante en `la-granjita-today.json`.

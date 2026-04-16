@@ -3,8 +3,8 @@
     "time": "08:00:00",
     "results": [
       {
-        "result": "09",
-        "animal": "Águila"
+        "result": "2",
+        "animal": "Toro"
       }
     ]
   },
@@ -12,31 +12,13 @@
     "time": "09:00:00",
     "results": [
       {
-        "result": "18",
-        "animal": "Burro"
+        "result": "32",
+        "animal": "Ardilla"
       }
     ]
   },
   {
     "time": "10:00:00",
-    "results": [
-      {
-        "result": "05",
-        "animal": "León"
-      }
-    ]
-  },
-  {
-    "time": "11:00:00",
-    "results": [
-      {
-        "result": "00",
-        "animal": "Ballena"
-      }
-    ]
-  },
-  {
-    "time": "12:00:00",
     "results": [
       {
         "result": "17",
@@ -45,11 +27,29 @@
     ]
   },
   {
+    "time": "11:00:00",
+    "results": [
+      {
+        "result": "22",
+        "animal": "Camello"
+      }
+    ]
+  },
+  {
+    "time": "12:00:00",
+    "results": [
+      {
+        "result": "12",
+        "animal": "Caballo"
+      }
+    ]
+  },
+  {
     "time": "13:00:00",
     "results": [
       {
-        "result": "11",
-        "animal": "Gato"
+        "result": "24",
+        "animal": "Iguana"
       }
     ]
   },
@@ -57,8 +57,8 @@
     "time": "14:00:00",
     "results": [
       {
-        "result": "16",
-        "animal": "Oso"
+        "result": "36",
+        "animal": "Culebra"
       }
     ]
   },
@@ -66,8 +66,8 @@
     "time": "15:00:00",
     "results": [
       {
-        "result": "01",
-        "animal": "Carnero"
+        "result": "14",
+        "animal": "Paloma"
       }
     ]
   },
@@ -75,8 +75,8 @@
     "time": "16:00:00",
     "results": [
       {
-        "result": "35",
-        "animal": "Jirafa"
+        "result": "5",
+        "animal": "Leon"
       }
     ]
   },
@@ -84,8 +84,8 @@
     "time": "17:00:00",
     "results": [
       {
-        "result": "31",
-        "animal": "Lapa"
+        "result": "32",
+        "animal": "Ardilla"
       }
     ]
   },
@@ -93,8 +93,8 @@
     "time": "18:00:00",
     "results": [
       {
-        "result": "22",
-        "animal": "Camello"
+        "result": "19",
+        "animal": "Chivo"
       }
     ]
   }

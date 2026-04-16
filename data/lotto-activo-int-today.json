@@ -34,5 +34,68 @@
         "animal": "Caballo"
       }
     ]
+  },
+  {
+    "time": "12:30:00",
+    "results": [
+      {
+        "result": "09",
+        "animal": "Águila"
+      }
+    ]
+  },
+  {
+    "time": "13:30:00",
+    "results": [
+      {
+        "result": "33",
+        "animal": "Pescado"
+      }
+    ]
+  },
+  {
+    "time": "14:30:00",
+    "results": [
+      {
+        "result": "31",
+        "animal": "Lapa"
+      }
+    ]
+  },
+  {
+    "time": "15:30:00",
+    "results": [
+      {
+        "result": "24",
+        "animal": "Iguana"
+      }
+    ]
+  },
+  {
+    "time": "16:30:00",
+    "results": [
+      {
+        "result": "32",
+        "animal": "Ardilla"
+      }
+    ]
+  },
+  {
+    "time": "17:30:00",
+    "results": [
+      {
+        "result": "05",
+        "animal": "Leon"
+      }
+    ]
+  },
+  {
+    "time": "18:30:00",
+    "results": [
+      {
+        "result": "36",
+        "animal": "Culebra"
+      }
+    ]
   }
 ]

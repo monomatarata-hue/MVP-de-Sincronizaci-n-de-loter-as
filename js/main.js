@@ -18,7 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Lotto Activo Scraper Data (Section 8)
     loadScraperResults('./data/lotto-activo-today.json', 'lotto-activo');
     loadScraperResults('./data/lotto-activo-int-today.json', 'lotto-activo-internacional');
+
+    // 3. La Granjita Scraper Data (Section 9)
+    loadScraperResults('./data/la-granjita-today.json', 'la-granjita');
 });
+
 
 /**
  * Fetches and renders scraper results from local JSON file
