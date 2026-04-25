@@ -3,8 +3,8 @@
     "time": "08:30:00",
     "results": [
       {
-        "result": "16",
-        "animal": "Oso"
+        "result": "26",
+        "animal": "Vaca"
       }
     ]
   },
@@ -21,8 +21,8 @@
     "time": "10:30:00",
     "results": [
       {
-        "result": "02",
-        "animal": "Toro"
+        "result": "25",
+        "animal": "Gallina"
       }
     ]
   },
@@ -30,8 +30,8 @@
     "time": "11:30:00",
     "results": [
       {
-        "result": "12",
-        "animal": "Caballo"
+        "result": "21",
+        "animal": "Gallo"
       }
     ]
   },
@@ -39,8 +39,8 @@
     "time": "12:30:00",
     "results": [
       {
-        "result": "09",
-        "animal": "Águila"
+        "result": "26",
+        "animal": "Vaca"
       }
     ]
   },
@@ -48,8 +48,8 @@
     "time": "13:30:00",
     "results": [
       {
-        "result": "33",
-        "animal": "Pescado"
+        "result": "21",
+        "animal": "Gallo"
       }
     ]
   },
@@ -57,8 +57,8 @@
     "time": "14:30:00",
     "results": [
       {
-        "result": "31",
-        "animal": "Lapa"
+        "result": "27",
+        "animal": "Perro"
       }
     ]
   },
@@ -66,35 +66,8 @@
     "time": "15:30:00",
     "results": [
       {
-        "result": "24",
-        "animal": "Iguana"
-      }
-    ]
-  },
-  {
-    "time": "16:30:00",
-    "results": [
-      {
-        "result": "32",
-        "animal": "Ardilla"
-      }
-    ]
-  },
-  {
-    "time": "17:30:00",
-    "results": [
-      {
-        "result": "05",
-        "animal": "Leon"
-      }
-    ]
-  },
-  {
-    "time": "18:30:00",
-    "results": [
-      {
-        "result": "36",
-        "animal": "Culebra"
+        "result": "15",
+        "animal": "Zorro"
       }
     ]
   }

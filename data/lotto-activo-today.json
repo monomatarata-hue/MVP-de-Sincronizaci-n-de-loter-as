@@ -3,8 +3,8 @@
     "time": "08:00:00",
     "results": [
       {
-        "result": "09",
-        "animal": "Águila"
+        "result": "08",
+        "animal": "Ratón"
       }
     ]
   },
@@ -12,49 +12,13 @@
     "time": "09:00:00",
     "results": [
       {
-        "result": "18",
-        "animal": "Burro"
+        "result": "32",
+        "animal": "Ardilla"
       }
     ]
   },
   {
     "time": "10:00:00",
-    "results": [
-      {
-        "result": "05",
-        "animal": "León"
-      }
-    ]
-  },
-  {
-    "time": "11:00:00",
-    "results": [
-      {
-        "result": "00",
-        "animal": "Ballena"
-      }
-    ]
-  },
-  {
-    "time": "12:00:00",
-    "results": [
-      {
-        "result": "17",
-        "animal": "Pavo"
-      }
-    ]
-  },
-  {
-    "time": "13:00:00",
-    "results": [
-      {
-        "result": "11",
-        "animal": "Gato"
-      }
-    ]
-  },
-  {
-    "time": "14:00:00",
     "results": [
       {
         "result": "16",
@@ -63,11 +27,47 @@
     ]
   },
   {
+    "time": "11:00:00",
+    "results": [
+      {
+        "result": "18",
+        "animal": "Burro"
+      }
+    ]
+  },
+  {
+    "time": "12:00:00",
+    "results": [
+      {
+        "result": "03",
+        "animal": "Ciempiés"
+      }
+    ]
+  },
+  {
+    "time": "13:00:00",
+    "results": [
+      {
+        "result": "10",
+        "animal": "Tigre"
+      }
+    ]
+  },
+  {
+    "time": "14:00:00",
+    "results": [
+      {
+        "result": "04",
+        "animal": "Alacrán"
+      }
+    ]
+  },
+  {
     "time": "15:00:00",
     "results": [
       {
-        "result": "01",
-        "animal": "Carnero"
+        "result": "12",
+        "animal": "Caballo"
       }
     ]
   },
@@ -75,35 +75,8 @@
     "time": "16:00:00",
     "results": [
       {
-        "result": "35",
-        "animal": "Jirafa"
-      }
-    ]
-  },
-  {
-    "time": "17:00:00",
-    "results": [
-      {
-        "result": "31",
-        "animal": "Lapa"
-      }
-    ]
-  },
-  {
-    "time": "18:00:00",
-    "results": [
-      {
-        "result": "22",
-        "animal": "Camello"
-      }
-    ]
-  },
-  {
-    "time": "19:00:00",
-    "results": [
-      {
-        "result": "33",
-        "animal": "Pescado"
+        "result": "02",
+        "animal": "Toro"
       }
     ]
   }

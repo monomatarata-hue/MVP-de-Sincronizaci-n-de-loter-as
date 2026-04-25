@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. La Granjita Scraper Data (Section 9)
     loadScraperResults('./data/la-granjita-today.json', 'la-granjita');
+
+    setInterval(() => {
+        loadScraperResults('./data/lotto-activo-today.json', 'lotto-activo');
+        loadScraperResults('./data/lotto-activo-int-today.json', 'lotto-activo-internacional');
+        loadScraperResults('./data/la-granjita-today.json', 'la-granjita');
+    }, 30000);
 });
 
 
@@ -97,4 +103,3 @@ function injectResultToCard(section, drawTime, winnerNumber, animalName = '') {
         }
     }
 }
-

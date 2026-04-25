@@ -101,7 +101,7 @@ const ANIMAL_MAPPER = {
     "93": "93-gaviota.webp",
     "94": "94-paujil.webp",
     "95": "95-escarabajo.webp",
-    "96": "96-cabarrilo-de-mar.webp",
+    "96": "96-caballito-de-mar.webp",
     "97": "97-loro.webp",
     "98": "98-cocodrilo.webp",
     "99": "99-guacharito.webp"
